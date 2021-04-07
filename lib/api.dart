@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:crypto/crypto.dart' as crypto;
 import 'dart:convert';
+import 'package:sha3/sha3.dart';
 
 final String host = "api.aqua.projects.nicolor.tech";
 
 class API {
   static final Uri endpointURL =
-      new Uri(scheme: 'http', host: host, path: "users/login", port: 3000);
+      new Uri(scheme: 'https', host: host, path: "users/login", port: 443);
 
   static Future<Map<String, dynamic>> loginPOST(
       String name, String passwd) async {
     // Hashing the user inputted password
-    var bytes = utf8.encode(passwd);
-    final passhash = crypto.sha224.convert(bytes);
+    final passhash = SHA3(224, SHA3_PADDING, 224);
+    passhash.update(utf8.encode(passwd));
     Response res = await post(endpointURL,
         headers: {"content-type": "application/json"},
         body: '{' +
