@@ -7,18 +7,19 @@ import 'package:hex/hex.dart';
 final String host = "api.aqua.projects.nicolor.tech";
 
 class API {
-  static final Uri endpointURL =
+  static final Uri loginURL =
       new Uri(scheme: 'https', host: host, path: "users/login", port: 443);
+  static final Uri registerURL =
+      new Uri(scheme: 'https', host: host, path: "users/register", port: 443);
 
-  static Future<Map<String, dynamic>> loginPOST(
-      String name, String passwd) async {
+  static Future<Map<String, dynamic>> login(String name, String passwd) async {
     // Hashing the user inputted password
     final passhash = SHA3(224, SHA3_PADDING, 224);
     passhash.update(utf8.encode(passwd));
 
     String pass224 = HEX.encode(passhash.digest());
 
-    Response res = await post(endpointURL,
+    Response res = await post(loginURL,
         headers: {"content-type": "application/json"},
         body: '{' +
             '"name": "' +
@@ -37,6 +38,8 @@ class API {
     } else
       return <String, dynamic>{"auth": false, "msg": token.msg};
   }
+
+  static Future<Map<String, dynamic>> register(String name, String password) {}
 }
 
 class EndpointResponse {
