@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.0
-  crypto: ^3.0.0
   shared_preferences: ^2.0.3
   sha3: ^0.2.0
   
