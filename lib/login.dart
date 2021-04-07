@@ -11,8 +11,9 @@ class _LoginPageState extends State<LoginPage> {
   // Values for the text fields
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  final GlobalKey<ScaffoldState> _LoginScaffold = new GlobalKey<ScaffoldState>();
-
+  final GlobalKey<ScaffoldState> _loginScaffold =
+      new GlobalKey<ScaffoldState>();
+  String message;
 
   // Widget to display
   @override
@@ -54,23 +55,22 @@ class _LoginPageState extends State<LoginPage> {
                       usernameController.text, passwordController.text),
                   // Debug statment REMOVE before production
                   print(apiResponse.toString()),
-                  String message = "",
+                  if (apiResponse["auth"])
                     {_writeToken(apiResponse["token"])}
                   else
                     {
-                      if (apiResponse["msg"].substring(0,3) == "403"){},
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        content: const Text()
-                      )
+                      if (apiResponse["msg"].substring(0, 3) == "403")
+                        {message = "Invalid Login"},
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(message))),
                     }
                 }),
       ),
     );
 
-    
     return SafeArea(
         child: Scaffold(
-          key: _LoginScaffold,
+      key: _loginScaffold,
       body: Center(
         child: ListView(
           shrinkWrap: true,
