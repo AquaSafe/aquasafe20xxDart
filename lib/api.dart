@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:sha3/sha3.dart';
+import 'package:hex/hex.dart';
 
 final String host = "api.aqua.projects.nicolor.tech";
 
@@ -14,6 +15,9 @@ class API {
     // Hashing the user inputted password
     final passhash = SHA3(224, SHA3_PADDING, 224);
     passhash.update(utf8.encode(passwd));
+
+    String pass224 = HEX.encode(passhash.digest());
+
     Response res = await post(endpointURL,
         headers: {"content-type": "application/json"},
         body: '{' +
@@ -21,7 +25,7 @@ class API {
             name +
             '", ' +
             '"password": "' +
-            passhash.toString() +
+            pass224 +
             '"' +
             '}');
     Map<String, dynamic> body = jsonDecode(res.body);
