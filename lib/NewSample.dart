@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/api.dart' as api;
 
+//dropdown iterables
 var sColors = [
   "Clear",
   "Cloudy",
