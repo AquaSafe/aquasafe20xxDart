@@ -40,7 +40,17 @@ class _HomePageState extends State<HomePage> {
                   child: const Icon(Icons.edit),
                   backgroundColor: Colors.blue,
                 ),
-                selectedIcon: Icon(Icons.list),
+                selectedIcon: FloatingActionButton(
+                  onPressed: () {
+                    // Go to sample creation
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewSample()),
+                    );
+                  },
+                  child: const Icon(Icons.edit),
+                  backgroundColor: Colors.blue,
+                ),
                 label: Text('List'),
               ),
               NavigationRailDestination(
@@ -104,14 +114,26 @@ class _SamplePageState extends State<NewSample> {
         },
         steps: [
           Step(
-            title: Text("Sample Name:"),
+            title: Text("Sample Title:"),
             content: Container(
                 alignment: Alignment.centerLeft,
-                child: Text("Content for Step 1")),
+                child: TextField(
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Enter Title',
+                  ),
+                ),
           ),
           Step(
             title: Text("Sample pH Level:"),
-            content: Text("Content for Step 2"),
+            content: TextField(
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Enter pH Level',
+                  ),
+                ),
           ),
         ],
       ),
