@@ -41,6 +41,8 @@ class _SamplePageState extends State<NewSample> {
       'Clear'; //Make sure this is never blank at the start of the widget //Colors
   String _currentSelectedValueT =
       'Tap'; //Make sure this is never blank at the start of the widget //Types
+
+  //stepper index
   int _index = 0;
 
   //Form values
