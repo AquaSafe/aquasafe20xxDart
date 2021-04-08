@@ -51,15 +51,15 @@ class _HomePageState extends State<HomePage> {
                   child: const Icon(Icons.edit),
                   backgroundColor: Colors.blue,
                 ),
-                label: Text('List'),
+                label: Text(''),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.favorite_border),
+                icon: Icon(Icons.list_outlined),
                 selectedIcon: Icon(Icons.list),
                 label: Text('List'),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.bookmark_border),
+                icon: Icon(Icons.group_outlined),
                 selectedIcon: Icon(Icons.group),
                 label: Text('Teams'),
               ),
@@ -116,24 +116,25 @@ class _SamplePageState extends State<NewSample> {
           Step(
             title: Text("Sample Title:"),
             content: Container(
-                alignment: Alignment.centerLeft,
-                child: TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter Title',
-                  ),
+              alignment: Alignment.centerLeft,
+              child: TextField(
+                obscureText: false,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter Title',
                 ),
+              ),
+            ),
           ),
           Step(
             title: Text("Sample pH Level:"),
             content: TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter pH Level',
-                  ),
-                ),
+              obscureText: false,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter pH Level',
+              ),
+            ),
           ),
         ],
       ),
