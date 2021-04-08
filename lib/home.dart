@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                 label: Text(''),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.list_outlined),
+                icon: Icon(Icons.list),
                 selectedIcon: Icon(Icons.list),
                 label: Text('List'),
               ),
