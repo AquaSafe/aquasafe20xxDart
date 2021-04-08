@@ -72,7 +72,8 @@ class _SamplePageState extends State<NewSample> {
     _samplePhController.dispose();
     _sampleHardnessController.dispose();
 
-    //retrieve here
+    //retrieve here. IN THE FUTURE: do not permit submission without filling in forms.
+    //Move data retrieval to the line of code which is popping the state.
     print("\n");
     print("Title: " + title);
     print("pH Level: " + pH);
