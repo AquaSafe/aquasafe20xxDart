@@ -3,6 +3,7 @@ import 'package:aquasafe20xx/api.dart' as api;
 
 var sColors = [
   "Clear",
+  "Cloudy",
   "Yellow",
   "Orange",
   "Red",
@@ -41,192 +42,218 @@ class _SamplePageState extends State<NewSample> {
       appBar: AppBar(
         title: Text('Create a Sample'),
       ),
-      body: Stepper(
-        currentStep: _index,
-        onStepCancel: () {
-          if (_index <= 0) {
-            Navigator.pop(context);
-            return;
-          }
-          setState(() {
-            _index--;
-          });
-        },
-        onStepContinue: () {
-          if (_index >= 4) {
-            return;
-          }
-          setState(() {
-            _index++;
-          });
-        },
-        onStepTapped: (index) {
-          setState(() {
-            _index = index;
-          });
-        },
-        steps: [
-          Step(
-            title: Text("Sample Title:"),
-            content: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(children: <Widget>[
-                Text("Please enter a name for this water sample."),
-                Padding(
-                  padding: EdgeInsets.only(top: 15),
-                ),
-                TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter Title',
+      body: Container(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                    "Please enter any data you have collected in the appropriate fields!"),
+              ),
+              Stepper(
+                currentStep: _index,
+                onStepCancel: () {
+                  if (_index <= 0) {
+                    Navigator.pop(context);
+                    return;
+                  }
+                  setState(() {
+                    _index--;
+                  });
+                },
+                onStepContinue: () {
+                  if (_index >= 4) {
+                    Navigator.pop(context);
+                    return;
+                  }
+                  setState(() {
+                    _index++;
+                  });
+                },
+                onStepTapped: (index) {
+                  setState(() {
+                    _index = index;
+                  });
+                },
+                steps: [
+                  Step(
+                    title: Text("Sample Title:"),
+                    content: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Please enter a name for this water sample."),
+                            Padding(
+                              padding: EdgeInsets.only(top: 15),
+                            ),
+                            TextField(
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Enter Title',
+                              ),
+                              onSubmitted: (String title) async {
+                                if (_index < 4) {
+                                  setState(() {
+                                    _index++;
+                                  });
+                                }
+                              }, // onSubmitted
+                            ),
+                          ]),
+                    ),
                   ),
-                  onSubmitted: (String title) async {
-                    if (_index < 4) {
-                      setState(() {
-                        _index++;
-                      });
-                    }
-                  }, // onSubmitted
-                ),
-              ]),
-            ),
-          ),
-          Step(
-            title: Text("Sample pH Level:"),
-            content: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(children: <Widget>[
-                Text("Please enter the pH level for this water sample."),
-                Padding(
-                  padding: EdgeInsets.only(top: 15),
-                ),
-                TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter pH Level',
+                  Step(
+                    title: Text("Sample pH Level:"),
+                    content: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                                "Please enter the pH level for this water sample."),
+                            Padding(
+                              padding: EdgeInsets.only(top: 15),
+                            ),
+                            TextField(
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Enter pH Level',
+                              ),
+                              onSubmitted: (String title) async {
+                                if (_index < 4) {
+                                  setState(() {
+                                    _index++;
+                                  });
+                                }
+                              }, // onSubmitted
+                            ),
+                          ]),
+                    ),
                   ),
-                  onSubmitted: (String title) async {
-                    if (_index < 4) {
-                      setState(() {
-                        _index++;
-                      });
-                    }
-                  }, // onSubmitted
-                ),
-              ]),
-            ),
-          ),
-          Step(
-            title: Text("Sample Hardness Level:"),
-            content: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(children: <Widget>[
-                Text("Please enter the hardness level for this water sample."),
-                Padding(
-                  padding: EdgeInsets.only(top: 15),
-                ),
-                TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter Hardness Level',
+                  Step(
+                    title: Text("Sample Hardness Level:"),
+                    content: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                                "Please enter the hardness level for this water sample."),
+                            Padding(
+                              padding: EdgeInsets.only(top: 15),
+                            ),
+                            TextField(
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Enter Hardness Level',
+                              ),
+                              onSubmitted: (String title) async {
+                                if (_index < 4) {
+                                  setState(() {
+                                    _index++;
+                                  });
+                                }
+                              }, // onSubmitted
+                            ),
+                          ]),
+                    ),
                   ),
-                  onSubmitted: (String title) async {
-                    if (_index < 4) {
-                      setState(() {
-                        _index++;
-                      });
-                    }
-                  }, // onSubmitted
-                ),
-              ]),
-            ),
-          ),
-          Step(
-            title: Text("Sample Color:"),
-            content: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(children: <Widget>[
-                Text("Please select a water color for this water sample."),
-                Padding(
-                  padding: EdgeInsets.only(top: 15),
-                ),
-                FormField<String>(
-                  builder: (FormFieldState<String> state) {
-                    return InputDecorator(
-                      decoration: InputDecoration(
-                        hintText: 'Select Color',
-                        border: OutlineInputBorder(),
-                      ),
-                      isEmpty: _currentSelectedValueC == '',
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _currentSelectedValueC,
-                          isDense: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _currentSelectedValueC = newValue;
-                              state.didChange(newValue);
-                            });
-                          },
-                          items: sColors.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ]),
-            ),
-          ),
-          Step(
-            title: Text("Sample Type:"),
-            content: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(children: <Widget>[
-                Text("Please select a location type for this water sample."),
-                Padding(
-                  padding: EdgeInsets.only(top: 15),
-                ),
-                FormField<String>(
-                  builder: (FormFieldState<String> state) {
-                    return InputDecorator(
-                      decoration: InputDecoration(
-                        hintText: 'Select Location Type',
-                        border: OutlineInputBorder(),
-                      ),
-                      isEmpty: _currentSelectedValueT == '',
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _currentSelectedValueT,
-                          isDense: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _currentSelectedValueT = newValue;
-                              state.didChange(newValue);
-                            });
-                          },
-                          items: sTypes.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ]),
-            ),
-          ),
-        ],
+                  Step(
+                    title: Text("Sample Color:"),
+                    content: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                                "Please select a water color for this water sample."),
+                            Padding(
+                              padding: EdgeInsets.only(top: 15),
+                            ),
+                            FormField<String>(
+                              builder: (FormFieldState<String> state) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    hintText: 'Select Color',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  isEmpty: _currentSelectedValueC == '',
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      value: _currentSelectedValueC,
+                                      isDense: true,
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          _currentSelectedValueC = newValue;
+                                          state.didChange(newValue);
+                                        });
+                                      },
+                                      items: sColors.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ]),
+                    ),
+                  ),
+                  Step(
+                    title: Text("Sample Type:"),
+                    content: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                                "Please select a location type for this water sample."),
+                            Padding(
+                              padding: EdgeInsets.only(top: 15),
+                            ),
+                            FormField<String>(
+                              builder: (FormFieldState<String> state) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    hintText: 'Select Location Type',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  isEmpty: _currentSelectedValueT == '',
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      value: _currentSelectedValueT,
+                                      isDense: true,
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          _currentSelectedValueT = newValue;
+                                          state.didChange(newValue);
+                                        });
+                                      },
+                                      items: sTypes.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ]),
+                    ),
+                  ),
+                ],
+              ),
+            ]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
