@@ -89,6 +89,9 @@ class _SamplePageState extends State<NewSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Create a Sample'),
+      ),
       body: Stepper(
         currentStep: _index,
         onStepCancel: () {
