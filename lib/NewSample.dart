@@ -182,20 +182,6 @@ class _SamplePageState extends State<NewSample> {
                     );
                   },
                 ),
-                // TextField(
-                //   obscureText: false,
-                //   decoration: InputDecoration(
-                //     border: OutlineInputBorder(),
-                //     labelText: 'Select Color',
-                //   ),
-                //   onSubmitted: (String title) async {
-                //     if (_index < 4) {
-                //       setState(() {
-                //         _index++;
-                //       });
-                //     }
-                //   }, // onSubmitted
-                // ),
               ]),
             ),
           ),
