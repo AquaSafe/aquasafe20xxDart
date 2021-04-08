@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/api.dart' as api;
 
+
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -78,6 +80,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+
+
 class NewSample extends StatefulWidget {
   @override
   _SamplePageState createState() => _SamplePageState();
@@ -96,7 +100,7 @@ class _SamplePageState extends State<NewSample> {
         currentStep: _index,
         onStepCancel: () {
           if (_index <= 0) {
-            return;
+            Navigator.pop;
           }
           setState(() {
             _index--;
