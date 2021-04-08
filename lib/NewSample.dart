@@ -31,11 +31,56 @@ class NewSample extends StatefulWidget {
 }
 
 class _SamplePageState extends State<NewSample> {
+  //controllers
+  final _sampleTitleController = TextEditingController();
+  final _samplePhController = TextEditingController();
+  final _sampleHardnessController = TextEditingController();
+
+  //pseudo controllers
   String _currentSelectedValueC =
       'Clear'; //Make sure this is never blank at the start of the widget //Colors
   String _currentSelectedValueT =
       'Tap'; //Make sure this is never blank at the start of the widget //Types
   int _index = 0;
+
+  //Form values
+  String title, pH, hardness;
+
+  @override
+  void initState() {
+    super.initState();
+    //listeners for controllers (text fields)
+    _sampleTitleController.addListener(() {
+      title = _sampleTitleController.text;
+    }); // title
+
+    _samplePhController.addListener(() {
+      pH = _samplePhController.text;
+    }); // pH
+
+    _sampleHardnessController.addListener(() {
+      hardness = _sampleHardnessController.text;
+    }); // hardness
+  }
+
+  @override
+  void dispose() {
+    //when the state is popped, all controllers will get cleaned up and the submitted information will be retrieved
+    _sampleTitleController.dispose();
+    _samplePhController.dispose();
+    _sampleHardnessController.dispose();
+
+    //retrieve here
+    print("\n");
+    print("Title: " + title);
+    print("pH Level: " + pH);
+    print("Hardness : " + hardness);
+    print("Color: " + _currentSelectedValueC);
+    print("Location Type: " + _currentSelectedValueT);
+
+    //dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +135,7 @@ class _SamplePageState extends State<NewSample> {
                               padding: EdgeInsets.only(top: 15),
                             ),
                             TextField(
+                              controller: _sampleTitleController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -119,6 +165,7 @@ class _SamplePageState extends State<NewSample> {
                               padding: EdgeInsets.only(top: 15),
                             ),
                             TextField(
+                              controller: _samplePhController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -148,6 +195,7 @@ class _SamplePageState extends State<NewSample> {
                               padding: EdgeInsets.only(top: 15),
                             ),
                             TextField(
+                              controller: _sampleHardnessController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
