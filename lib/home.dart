@@ -8,48 +8,49 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
-  String pageTitle = "SampleList" //default page (on launch) is the sample list
+  String pageTitle = "SampleList"; //default page (on launch) is the sample list
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: Appbar(
-      title: Text(pageTitle),
-    ),
-    body: Row(
-      children: <Widget>[
-      NavigationRail(
-      selectedIndex: _selectedIndex,
-
-      onDestinationSelected: (int index) {
-                   setState(() {
+      appBar: AppBar(
+        title: Text(pageTitle),
+      ),
+      body: Row(
+        children: <Widget>[
+          NavigationRail(
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: (int index) {
+              setState(() {
                 _selectedIndex = index;
               });
             },
             labelType: NavigationRailLabelType.selected,
-            destinations: const <NavigationRailDestination>[
-              NavigationRailDestination( //FAB
+            destinations: <NavigationRailDestination>[
+              NavigationRailDestination(
+                //FAB
                 icon: FloatingActionButton(
-                        onPressed: () {
-                          // Go to sample creation
-                          Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => newSample()),
-                          );
-                        },
-                        child: const Icon(Icons.Edit),
-                        backgroundColor: Colors.blue,
-                      ),
+                  onPressed: () {
+                    // Go to sample creation
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewSample()),
+                    );
+                  },
+                  child: const Icon(Icons.edit),
+                  backgroundColor: Colors.blue,
+                ),
                 selectedIcon: Icon(Icons.list),
                 label: Text('List'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.favorite_border),
-                selectedIcon: Icon(Icons.List),
+                selectedIcon: Icon(Icons.list),
                 label: Text('List'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.bookmark_border),
-                selectedIcon: Icon(Icons.Groups),
+                selectedIcon: Icon(Icons.group),
                 label: Text('Teams'),
               ),
             ],
@@ -67,13 +68,18 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class newSample extends StatefulWidget {
+class NewSample extends StatefulWidget {
+  @override
+  _SamplePageState createState() => _SamplePageState();
+}
+
+class _SamplePageState extends State<NewSample> {
   int _index = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      child: Stepper(
+      body: Stepper(
         currentStep: _index,
         onStepCancel: () {
           if (_index <= 0) {
@@ -109,18 +115,14 @@ class newSample extends StatefulWidget {
           ),
         ],
       ),
-    );
-
-    floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed code here!]
           Navigator.pop(context);
         },
-        child: const Icon(Icons.navigation),
-        backgroundColor: Colors.green,
+        child: const Icon(Icons.send),
+        backgroundColor: Colors.blue,
       ),
-    );
-      
     );
   }
 }

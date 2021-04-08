@@ -51,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             onPressed: () async => {
                   // Grabs token using username and password from text fields
-                  apiResponse = await api.API.loginPOST(
-                      usernameController.text, passwordController.text),
+                  apiResponse = await api.API
+                      .login(usernameController.text, passwordController.text),
                   // Debug statment REMOVE before production
                   print(apiResponse.toString()),
                   if (apiResponse["auth"])

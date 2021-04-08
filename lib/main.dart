@@ -1,3 +1,4 @@
+import 'package:aquasafe20xx/home.dart';
 import 'package:aquasafe20xx/login.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.blueAccent,
         brightness: Brightness.dark,
       ),
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
