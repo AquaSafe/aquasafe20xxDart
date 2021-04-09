@@ -8,14 +8,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Aquasafe20XX Login',
+      title: 'AquaSafe WebApp',
       theme: ThemeData(
         primaryColor: Colors.blue,
         primarySwatch: Colors.blue,
         accentColor: Colors.blueAccent,
         brightness: Brightness.dark,
       ),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }
