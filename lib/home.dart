@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:aquasafe20xx/NewSample.dart';
 import 'package:aquasafe20xx/api.dart' as api;
-
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,13 +23,19 @@ class _HomePageState extends State<HomePage> {
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
               setState(() {
+                if (index == 0) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NewSample()),
+                  );
+                  index = 1;
+                }
                 _selectedIndex = index;
               });
             },
             labelType: NavigationRailLabelType.selected,
             destinations: <NavigationRailDestination>[
               NavigationRailDestination(
-                //FAB
                 icon: FloatingActionButton(
                   onPressed: () {
                     // Go to sample creation
@@ -56,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                 label: Text(''),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.list_outlined),
+                icon: Icon(Icons.list),
                 selectedIcon: Icon(Icons.list),
                 label: Text('List'),
               ),
@@ -75,83 +80,6 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-
-
-class NewSample extends StatefulWidget {
-  @override
-  _SamplePageState createState() => _SamplePageState();
-}
-
-class _SamplePageState extends State<NewSample> {
-  int _index = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Create a Sample'),
-      ),
-      body: Stepper(
-        currentStep: _index,
-        onStepCancel: () {
-          if (_index <= 0) {
-            Navigator.pop;
-          }
-          setState(() {
-            _index--;
-          });
-        },
-        onStepContinue: () {
-          if (_index >= 1) {
-            return;
-          }
-          setState(() {
-            _index++;
-          });
-        },
-        onStepTapped: (index) {
-          setState(() {
-            _index = index;
-          });
-        },
-        steps: [
-          Step(
-            title: Text("Sample Title:"),
-            content: Container(
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter Title',
-                ),
-              ),
-            ),
-          ),
-          Step(
-            title: Text("Sample pH Level:"),
-            content: TextField(
-              obscureText: false,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Enter pH Level',
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!]
-          Navigator.pop(context);
-        },
-        child: const Icon(Icons.send),
-        backgroundColor: Colors.blue,
       ),
     );
   }
