@@ -1,19 +1,20 @@
 import 'package:aquasafe20xx/home.dart';
-import 'package:aquasafe20xx/register.dart';
+import 'package:aquasafe20xx/login.dart';
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/api.dart' as api;
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   // Values for the text fields
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
   final GlobalKey<ScaffoldState> _loginScaffold =
       new GlobalKey<ScaffoldState>();
   String message;
@@ -43,32 +44,41 @@ class _LoginPageState extends State<LoginPage> {
         textInputAction: TextInputAction.next,
       ),
     );
+    final confirmPasswd = Padding(
+      padding: EdgeInsets.only(bottom: 10),
+      child: TextField(
+        autocorrect: false,
+        obscureText: true,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(hintText: 'Confirm'),
+        controller: confirmController,
+        textInputAction: TextInputAction.next,
+      ),
+    );
 
-    final loginButton = Padding(
+    final registerButton = Padding(
       padding: EdgeInsets.only(bottom: 5),
       child: ButtonTheme(
         height: 56,
         child: ElevatedButton(
             child: Text(
-              'Login',
+              'Register',
               style: TextStyle(fontSize: 20),
             ),
-            onPressed: () async => {_login()}),
+            onPressed: () async => {_register()}),
       ),
     );
-
-    final switchToRegister = Padding(
+    final switchToLogin = Padding(
         padding: EdgeInsets.only(bottom: 5),
         child: ButtonTheme(
             height: 56,
             child: TextButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()));
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               },
-              child: Text("Register"),
+              child: Text("Login"),
             )));
-
     return SafeArea(
         child: Scaffold(
       key: _loginScaffold,
@@ -79,8 +89,9 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             inputUsername,
             inputPasswd,
-            loginButton,
-            switchToRegister
+            confirmPasswd,
+            registerButton,
+            switchToLogin
           ],
         ),
       ),
@@ -92,20 +103,27 @@ class _LoginPageState extends State<LoginPage> {
     prefs.setString("token", token);
   }
 
-  void _login() async {
+  void _register() async {
+    if (confirmController.text != passwordController.text) {
+      message = "Passwords do not match";
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+      return;
+    }
+
     Map<String, dynamic> apiResponse;
     // Grabs token using username and password from text fields
-    apiResponse =
-        await api.API.login(usernameController.text, passwordController.text);
+    apiResponse = await api.API
+        .register(usernameController.text, passwordController.text);
     // Debug statment REMOVE before production
     print(apiResponse.toString());
     if (apiResponse["auth"]) {
-      _writeToken(apiResponse["token"]);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
+      _writeToken(apiResponse["token"]);
     } else {
       if (apiResponse["msg"].substring(0, 3) == "403") {
-        message = "Invalid Login";
+        message = "User already exists with that name";
       }
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message)));
