@@ -268,19 +268,19 @@ class _SamplePageState extends State<NewSample> {
                     } else {
                       if (checkDouble()) {
                         Navigator.pop(context);
+                        //converts the field strings into the appropriate types
+                        double _pH = double.parse(pH);
+                        int _hardness = int.parse(hardness);
+                        int _color = convertColor();
+                        int _type = convertType();
+
+                        _samples.addSample(
+                            Sample(title, _pH, _hardness, _color, _type));
                       } else {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(extraDecimal);
                       }
                     }
-                    //converts the field strings into the appropriate types
-                    double _pH = double.parse(pH);
-                    int _hardness = int.parse(hardness);
-                    int _color = convertColor();
-                    int _type = convertType();
-
-                    _samples.addSample(
-                        Sample(title, _pH, _hardness, _color, _type));
 
                     return;
                   }
@@ -497,17 +497,17 @@ class _SamplePageState extends State<NewSample> {
           } else {
             if (checkDouble()) {
               Navigator.pop(context);
+              //converts the field strings into the appropriate types
+              double _pH = double.parse(pH);
+              int _hardness = int.parse(hardness);
+              int _color = convertColor();
+              int _type = convertType();
+
+              _samples.addSample(Sample(title, _pH, _hardness, _color, _type));
             } else {
               ScaffoldMessenger.of(context).showSnackBar(extraDecimal);
             }
           }
-          //converts the field strings into the appropriate types
-          double _pH = double.parse(pH);
-          int _hardness = int.parse(hardness);
-          int _color = convertColor();
-          int _type = convertType();
-
-          _samples.addSample(Sample(title, _pH, _hardness, _color, _type));
         },
         child: const Icon(Icons.send),
         backgroundColor: Colors.blue,
