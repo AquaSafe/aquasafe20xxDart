@@ -11,4 +11,14 @@ class SampleList {
   addSample(Sample addition) {
     userSamples.add(addition);
   }
+
+  //loads the users samples
+  loadList(List userData) {
+    userSamples = userData;
+  }
+
+  //retrieves the users samples for use in a listView
+  retrieveList() {
+    return userSamples;
+  }
 }

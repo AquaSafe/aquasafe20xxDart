@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/NewSample.dart';
+import 'package:aquasafe20xx/samplelist.dart';
+import 'package:aquasafe20xx/sample.dart';
 import 'package:aquasafe20xx/api.dart' as api;
+
+//sampleList init
+SampleList _samples = new SampleList();
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,15 +26,19 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           NavigationRail(
             selectedIndex: _selectedIndex,
-            onDestinationSelected: (int index) {
+            onDestinationSelected: (int index) async {
+              if (index == 0) {
+                int value = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewSample()),
+                );
+                print(value);
+                index = 1;
+              }
               setState(() {
-                if (index == 0) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NewSample()),
-                  );
-                  index = 1;
-                }
+                // if (index == _selectedIndex) {
+                //   ContentSpace(_selectedIndex);
+                // }
                 _selectedIndex = index;
               });
             },
@@ -37,23 +46,29 @@ class _HomePageState extends State<HomePage> {
             destinations: <NavigationRailDestination>[
               NavigationRailDestination(
                 icon: FloatingActionButton(
-                  onPressed: () {
-                    // Go to sample creation
-                    Navigator.push(
+                  onPressed: () async {
+                    int value = await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => NewSample()),
                     );
+                    setState(() {
+                      print(value);
+                      _selectedIndex = _selectedIndex;
+                    });
                   },
                   child: const Icon(Icons.edit),
                   backgroundColor: Colors.blue,
                 ),
                 selectedIcon: FloatingActionButton(
-                  onPressed: () {
-                    // Go to sample creation
-                    Navigator.push(
+                  onPressed: () async {
+                    int value = await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => NewSample()),
                     );
+                    setState(() {
+                      print(value);
+                      _selectedIndex = _selectedIndex;
+                    });
                   },
                   child: const Icon(Icons.edit),
                   backgroundColor: Colors.blue,
@@ -74,13 +89,223 @@ class _HomePageState extends State<HomePage> {
           ),
           const VerticalDivider(thickness: 1, width: 1),
           // This is the main content.
-          Expanded(
-            child: Center(
-              child: Text('selectedIndex: $_selectedIndex'),
-            ),
-          )
+          ContentSpace(_selectedIndex)
         ],
       ),
     );
+  }
+}
+
+class ContentSpace extends StatelessWidget {
+  final int _selectedIndex;
+  ContentSpace(this._selectedIndex);
+
+  findType(index) {
+    String type;
+    switch (_samples.retrieveList()[index].location) {
+      case 0:
+        {
+          type = 'Unknown';
+        }
+        break;
+      case 1:
+        {
+          type = 'Tap';
+        }
+        break;
+      case 2:
+        {
+          type = 'Well';
+        }
+        break;
+      case 3:
+        {
+          type = 'River';
+        }
+        break;
+      case 4:
+        {
+          type = 'Lake';
+        }
+        break;
+      case 5:
+        {
+          type = 'Rain';
+        }
+        break;
+      case 6:
+        {
+          type = 'Stream';
+        }
+        break;
+      case 7:
+        {
+          type = 'Spring';
+        }
+        break;
+      case 8:
+        {
+          type = 'Hand pump';
+        }
+        break;
+    } //switch statement
+
+    return type;
+  }
+
+  findColor(index) {
+    String color;
+    switch (_samples.retrieveList()[index].color) {
+      case 0:
+        {
+          color = 'Clear';
+        }
+        break;
+      case 1:
+        {
+          color = 'Cloudy';
+        }
+        break;
+      case 2:
+        {
+          color = 'Yellow';
+        }
+        break;
+      case 3:
+        {
+          color = 'Orange';
+        }
+        break;
+      case 4:
+        {
+          color = 'Red';
+        }
+        break;
+      case 5:
+        {
+          color = 'Green-blue';
+        }
+        break;
+      case 6:
+        {
+          color = 'Black';
+        }
+        break;
+      case 7:
+        {
+          color = 'Pink';
+        }
+        break;
+      case 8:
+        {
+          color = 'Green';
+        }
+        break;
+    } //switch statement
+
+    return color;
+  }
+
+  //bools
+  bool remove = false;
+
+  removeSet(bool which) {
+    remove = which;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Future<void> _showDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete Sample'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('You are about to delete a sample.'),
+                  Text('Would you like to proceed?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  removeSet(true);
+                  print(remove);
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('No'),
+                onPressed: () {
+                  removeSet(false);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    //will change based on whichever index is selected
+    switch (_selectedIndex) {
+      case 1:
+        {
+          return Expanded(
+              child: ListView.builder(
+                  padding: EdgeInsets.all(15),
+                  itemCount: _samples.retrieveList().length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                        child: Column(children: <Widget>[
+                      InkWell(
+                          splashColor: Colors.blue,
+                          onLongPress: () async {
+                            await _showDialog();
+                            if (remove) {
+                              _samples
+                                  .retrieveList()
+                                  .remove(_samples.retrieveList()[index]);
+                              print(_samples.retrieveList());
+
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()));
+                            } else {}
+                          },
+                          onTap: () {
+                            print('ye');
+                          },
+                          child: ListTile(
+                              leading: Icon(Icons.fact_check),
+                              // trailing: IconButton(
+                              //   padding: EdgeInsets.all(0),
+                              //   icon: Icon(Icons.chevron_right),
+                              //   onPressed: () {
+                              //     print("ye");
+                              //   },
+                              // ),
+                              title: Text(_samples.retrieveList()[index].title),
+                              subtitle: Text("Color: " +
+                                  findColor(index) +
+                                  "; Type: " +
+                                  findType(index))))
+                    ]));
+                  }));
+        }
+        break;
+      case 2:
+        {
+          return Expanded(child: Text("Nothing to see here"));
+        }
+        break;
+    } //switch
   }
 }

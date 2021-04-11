@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/sample.dart';
+import 'package:aquasafe20xx/home.dart';
 import 'package:aquasafe20xx/api.dart' as api;
 import 'package:flutter/services.dart';
 import 'package:aquasafe20xx/samplelist.dart';
@@ -21,6 +22,7 @@ var sColors = [
 ];
 
 var sTypes = [
+  "Unknown",
   "Tap",
   "Well",
   "River",
@@ -46,7 +48,7 @@ class _SamplePageState extends State<NewSample> {
   String _currentSelectedValueC =
       'Clear'; //Make sure this is never blank at the start of the widget //Colors
   String _currentSelectedValueT =
-      'Tap'; //Make sure this is never blank at the start of the widget //Types
+      'Unknown'; //Make sure this is never blank at the start of the widget //Types
 
   //stepper index
   int _index = 0;
@@ -253,7 +255,7 @@ class _SamplePageState extends State<NewSample> {
                 currentStep: _index,
                 onStepCancel: () {
                   if (_index <= 0) {
-                    Navigator.pop(context);
+                    Navigator.pop(context, 1);
                     return;
                   }
                   setState(() {
@@ -267,7 +269,7 @@ class _SamplePageState extends State<NewSample> {
                       ScaffoldMessenger.of(context).showSnackBar(missingField);
                     } else {
                       if (checkDouble()) {
-                        Navigator.pop(context);
+                        Navigator.pop(context, 1);
                         //converts the field strings into the appropriate types
                         double _pH = double.parse(pH);
                         int _hardness = int.parse(hardness);
@@ -496,7 +498,7 @@ class _SamplePageState extends State<NewSample> {
             ScaffoldMessenger.of(context).showSnackBar(missingField);
           } else {
             if (checkDouble()) {
-              Navigator.pop(context);
+              Navigator.pop(context, 1);
               //converts the field strings into the appropriate types
               double _pH = double.parse(pH);
               int _hardness = int.parse(hardness);
