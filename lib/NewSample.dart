@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:aquasafe20xx/sample.dart';
 import 'package:aquasafe20xx/api.dart' as api;
+import 'package:flutter/services.dart';
+import 'package:aquasafe20xx/samplelist.dart';
+
+//accessing the sample list
+SampleList _samples = new SampleList();
 
 //dropdown iterables
 var sColors = [
@@ -45,8 +51,160 @@ class _SamplePageState extends State<NewSample> {
   //stepper index
   int _index = 0;
 
+  //snackBars
+  final missingField =
+      SnackBar(content: Text('Please fill in all form fields!'));
+  final extraDecimal = SnackBar(
+      content: Text('You cannot have multiple decimals in the pH field!'));
+
   //Form values
   String title, pH, hardness;
+
+  //checking for empty text fields on submission
+  checkNull() {
+    if ((title?.isEmpty ?? true) ||
+        (pH?.isEmpty ?? true) ||
+        (hardness?.isEmpty ?? true)) {
+      // detects nulls
+      // ( the '?' operator on an object won't run .isEmpty if the instance is null), ?? is a defined-or operator so if it is null it will use 'true'
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //checking for multiple decimals in the ph field
+  checkDouble() {
+    int count = 0;
+    for (int i = 0; i < pH.length; i++) {
+      if (i == pH.length - 1) {
+        if (pH.substring(i, i + 1) == '.') {
+          count++;
+        }
+      }
+      if (pH.substring(i, i + 1) == '.') {
+        count++;
+      }
+    }
+
+    if (count > 1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  //converts '_currentSelectedValueT' to an integer value
+  convertType() {
+    int _type;
+
+    //type
+    switch (_currentSelectedValueT.toLowerCase()) {
+      case 'unknown':
+        {
+          _type = 0;
+        }
+        break;
+      case 'tap':
+        {
+          _type = 1;
+        }
+        break;
+      case 'well':
+        {
+          _type = 2;
+        }
+        break;
+      case 'river':
+        {
+          _type = 3;
+        }
+        break;
+      case 'lake':
+        {
+          _type = 4;
+        }
+        break;
+      case 'rain':
+        {
+          _type = 5;
+        }
+        break;
+      case 'stream':
+        {
+          _type = 6;
+        }
+        break;
+      case 'spring':
+        {
+          _type = 7;
+        }
+        break;
+      case 'hand pump':
+        {
+          _type = 8;
+        }
+        break;
+    } //switch statement
+
+    return _type;
+  }
+
+  //converts '_currentSelectedValueC' to an integer value
+  convertColor() {
+    int _color;
+
+    //color
+    switch (_currentSelectedValueC.toLowerCase()) {
+      case 'clear':
+        {
+          _color = 0;
+        }
+        break;
+      case 'cloudy':
+        {
+          _color = 1;
+        }
+        break;
+      case 'yellow':
+        {
+          _color = 2;
+        }
+        break;
+      case 'orange':
+        {
+          _color = 3;
+        }
+        break;
+      case 'red':
+        {
+          _color = 4;
+        }
+        break;
+      case 'green-blue':
+        {
+          _color = 5;
+        }
+        break;
+      case 'black':
+        {
+          _color = 6;
+        }
+        break;
+      case 'pink':
+        {
+          _color = 7;
+        }
+        break;
+      case 'green':
+        {
+          _color = 8;
+        }
+        break;
+    }
+
+    return _color;
+  }
 
   @override
   void initState() {
@@ -71,15 +229,6 @@ class _SamplePageState extends State<NewSample> {
     _sampleTitleController.dispose();
     _samplePhController.dispose();
     _sampleHardnessController.dispose();
-
-    //retrieve here. IN THE FUTURE: do not permit submission without filling in forms.
-    //Move data retrieval to the line of code which is popping the state.
-    print("\n");
-    print("Title: " + title);
-    print("pH Level: " + pH);
-    print("Hardness : " + hardness);
-    print("Color: " + _currentSelectedValueC);
-    print("Location Type: " + _currentSelectedValueT);
 
     //dispose
     super.dispose();
@@ -113,7 +262,26 @@ class _SamplePageState extends State<NewSample> {
                 },
                 onStepContinue: () {
                   if (_index >= 4) {
-                    Navigator.pop(context);
+                    if (checkNull()) {
+                      // don't submit form if empty fields
+                      ScaffoldMessenger.of(context).showSnackBar(missingField);
+                    } else {
+                      if (checkDouble()) {
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(extraDecimal);
+                      }
+                    }
+                    //converts the field strings into the appropriate types
+                    double _pH = double.parse(pH);
+                    int _hardness = int.parse(hardness);
+                    int _color = convertColor();
+                    int _type = convertType();
+
+                    _samples.addSample(
+                        Sample(title, _pH, _hardness, _color, _type));
+
                     return;
                   }
                   setState(() {
@@ -170,6 +338,12 @@ class _SamplePageState extends State<NewSample> {
                             TextField(
                               controller: _samplePhController,
                               obscureText: false,
+                              keyboardType: TextInputType
+                                  .number, //number keyboard for this field
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow((RegExp(
+                                    r"[.0-9]"))) //prevents pasting any characters besides digits
+                              ],
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Enter pH Level',
@@ -200,6 +374,12 @@ class _SamplePageState extends State<NewSample> {
                             TextField(
                               controller: _sampleHardnessController,
                               obscureText: false,
+                              keyboardType: TextInputType
+                                  .number, //number keyboard for this field
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow((RegExp(
+                                    r"[0-9]"))) //prevents pasting any characters besides digits
+                              ],
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Enter Hardness Level',
@@ -308,9 +488,26 @@ class _SamplePageState extends State<NewSample> {
             ]),
       ),
       floatingActionButton: FloatingActionButton(
+        //FORM SUBMISSION EVENT
         onPressed: () {
           // Add your onPressed code here!]
-          Navigator.pop(context);
+          if (checkNull()) {
+            // don't submit form if empty fields
+            ScaffoldMessenger.of(context).showSnackBar(missingField);
+          } else {
+            if (checkDouble()) {
+              Navigator.pop(context);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(extraDecimal);
+            }
+          }
+          //converts the field strings into the appropriate types
+          double _pH = double.parse(pH);
+          int _hardness = int.parse(hardness);
+          int _color = convertColor();
+          int _type = convertType();
+
+          _samples.addSample(Sample(title, _pH, _hardness, _color, _type));
         },
         child: const Icon(Icons.send),
         backgroundColor: Colors.blue,
