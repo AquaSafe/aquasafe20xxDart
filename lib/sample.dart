@@ -10,7 +10,7 @@ class Sample {
 
   /// Takes in title, pH, hardness, color, and location.
   ///
-  /// | Color      | int | Type      |
+  /// | Color      | int | Location  |
   /// | ---------  | :-: | --------: |
   /// | Clear      | 0   | Unknown   |
   /// | Cloudy     | 1   | Tap       |
@@ -44,8 +44,6 @@ class Sample {
   /// This lastly brings that Map<String, dynamic> to JSON to be used to make a
   /// request.
   String toJson() {
-    Map<String, dynamic> input = this.toMap();
-
     return json.encode(this.toMap());
   }
 
