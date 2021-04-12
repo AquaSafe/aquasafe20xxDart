@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/NewSample.dart';
 import 'package:aquasafe20xx/samplelist.dart';
@@ -6,6 +8,8 @@ import 'package:aquasafe20xx/api.dart' as api;
 
 //sampleList init
 SampleList _samples = new SampleList();
+
+int _globalIndex = 1;
 
 class HomePage extends StatefulWidget {
   @override
@@ -46,6 +50,8 @@ class _HomePageState extends State<HomePage> {
                   pageTitle = "Water Samples";
                 }
                 _selectedIndex = index;
+                _globalIndex = _selectedIndex;
+                print(_selectedIndex);
               });
             },
             labelType: NavigationRailLabelType.selected,
@@ -74,6 +80,7 @@ class _HomePageState extends State<HomePage> {
                     setState(() {
                       print(value);
                       _selectedIndex = _selectedIndex;
+                      print(_selectedIndex);
                     });
                   },
                   child: const Icon(Icons.edit),
@@ -95,17 +102,19 @@ class _HomePageState extends State<HomePage> {
           ),
           const VerticalDivider(thickness: 1, width: 1),
           // This is the main content.
-          ContentSpace(_selectedIndex)
+          ContentSpace()
         ],
       ),
     );
   }
 }
 
-class ContentSpace extends StatelessWidget {
-  final int _selectedIndex;
-  ContentSpace(this._selectedIndex);
+class ContentSpace extends StatefulWidget {
+  @override
+  _ContentSpace createState() => _ContentSpace();
+}
 
+class _ContentSpace extends State<ContentSpace> {
   findType(index) {
     String type;
     switch (_samples.retrieveList()[index].location) {
@@ -219,6 +228,7 @@ class ContentSpace extends StatelessWidget {
     remove = which;
   }
 
+  //dialog
   @override
   Widget build(BuildContext context) {
     Future<void> _showDialog() async {
@@ -259,7 +269,8 @@ class ContentSpace extends StatelessWidget {
     }
 
     //will change based on whichever index is selected
-    switch (_selectedIndex) {
+    int currentIndex = _globalIndex;
+    switch (currentIndex) {
       case 1:
         {
           return Expanded(
@@ -274,16 +285,23 @@ class ContentSpace extends StatelessWidget {
                           onLongPress: () async {
                             await _showDialog();
                             if (remove) {
-                              _samples
-                                  .retrieveList()
-                                  .remove(_samples.retrieveList()[index]);
-                              print(_samples.retrieveList());
+                              // _samples
+                              //     .retrieveList()
+                              //     .remove(_samples.retrieveList()[index]);
+                              // print(_samples.retrieveList());
 
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                              setState(() {
+                                _samples
+                                    .retrieveList()
+                                    .remove(_samples.retrieveList()[index]);
+                                print(_samples.retrieveList());
+                              });
+
+                              // Navigator.of(context).pop();
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => HomePage()));
                             } else {}
                           },
                           onTap: () {

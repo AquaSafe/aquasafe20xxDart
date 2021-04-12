@@ -117,6 +117,10 @@ class _LoginPageState extends State<LoginPage> {
     print(apiResponse.toString());
     if (apiResponse["auth"]) {
       _writeToken(apiResponse["token"]);
+
+      final prefs = await SharedPreferences.getInstance();
+      //await api.API.listSamples(prefs.getString("Token"));
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     } else {

@@ -13,7 +13,7 @@ class SampleList {
   }
 
   //loads the users samples
-  loadList(List userData) {
+  loadList(List<Sample> userData) {
     userSamples = userData;
   }
 

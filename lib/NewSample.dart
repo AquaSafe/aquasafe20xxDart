@@ -4,6 +4,7 @@ import 'package:aquasafe20xx/home.dart';
 import 'package:aquasafe20xx/api.dart' as api;
 import 'package:flutter/services.dart';
 import 'package:aquasafe20xx/samplelist.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //accessing the sample list
 SampleList _samples = new SampleList();
@@ -262,7 +263,7 @@ class _SamplePageState extends State<NewSample> {
                     _index--;
                   });
                 },
-                onStepContinue: () {
+                onStepContinue: () async {
                   if (_index >= 4) {
                     if (checkNull()) {
                       // don't submit form if empty fields
@@ -276,8 +277,16 @@ class _SamplePageState extends State<NewSample> {
                         int _color = convertColor();
                         int _type = convertType();
 
-                        _samples.addSample(
-                            Sample(title, _pH, _hardness, _color, _type));
+                        //the created sample
+                        Sample creation =
+                            new Sample(title, _pH, _hardness, _color, _type);
+
+                        _samples.addSample(creation);
+
+                        //saving
+                        final prefs = await SharedPreferences.getInstance();
+                        String token = prefs.getString("token");
+                        api.API.newSampl(token, creation);
                       } else {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(extraDecimal);
@@ -491,7 +500,7 @@ class _SamplePageState extends State<NewSample> {
       ),
       floatingActionButton: FloatingActionButton(
         //FORM SUBMISSION EVENT
-        onPressed: () {
+        onPressed: () async {
           // Add your onPressed code here!]
           if (checkNull()) {
             // don't submit form if empty fields
@@ -505,7 +514,16 @@ class _SamplePageState extends State<NewSample> {
               int _color = convertColor();
               int _type = convertType();
 
-              _samples.addSample(Sample(title, _pH, _hardness, _color, _type));
+              //the created sample
+              Sample creation =
+                  new Sample(title, _pH, _hardness, _color, _type);
+
+              _samples.addSample(creation);
+
+              //saving
+              final prefs = await SharedPreferences.getInstance();
+              String token = prefs.getString("token");
+              api.API.newSampl(token, creation);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(extraDecimal);
             }
