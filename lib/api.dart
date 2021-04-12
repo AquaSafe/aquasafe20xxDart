@@ -102,7 +102,7 @@ class API {
         body: '{' +
             '"token": "' +
             token +
-            ', "sample": ' +
+            '", "sample": ' +
             sample.toJson() +
             '}');
     Map<String, dynamic> body = jsonDecode(res.body);
