@@ -8,6 +8,9 @@ import 'package:hex/hex.dart';
 
 final String host = "api.aqua.projects.nicolor.tech";
 
+//user instance
+SampleList userInfo = new SampleList();
+
 class API {
   // Making URI objects for all them API calls
   static final Uri loginURL =
@@ -129,6 +132,8 @@ class API {
       for (Map<String, dynamic> a in samples.results) {
         sampleList.add(Sample.fromJson(a));
       }
+
+      userInfo.loadList(sampleList);
 
       return <String, dynamic>{
         "auth": samples.auth,
