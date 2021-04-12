@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(builder: (context) => NewSample()),
                 );
-                print(value);
                 index = 1;
               }
               setState(() {
@@ -51,7 +50,6 @@ class _HomePageState extends State<HomePage> {
                 }
                 _selectedIndex = index;
                 _globalIndex = _selectedIndex;
-                print(_selectedIndex);
               });
             },
             labelType: NavigationRailLabelType.selected,
@@ -64,7 +62,6 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(builder: (context) => NewSample()),
                     );
                     setState(() {
-                      print(value);
                       _selectedIndex = _selectedIndex;
                     });
                   },
