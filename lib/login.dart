@@ -18,12 +18,14 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
+      print(prefs.getString("token"));
+      if (prefs.getString("token") != null) {
+        validate = await api.API.validate(prefs.getString("token"));
 
-      validate = await api.API.validate(prefs.getString("token"));
-
-      if (validate["auth"])
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        if (validate["auth"])
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+      }
     });
   }
 
