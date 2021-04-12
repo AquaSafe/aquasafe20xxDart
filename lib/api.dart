@@ -80,7 +80,7 @@ class API {
   static Future<Map<String, dynamic>> validate(String token) async {
     Response res = await post(validateURL,
         headers: {"content-type": "application/json"},
-        body: '{' + '"token": "' + token + '}');
+        body: '{"token": "' + token + '"}');
     Map<String, dynamic> body = jsonDecode(res.body);
     EndpointResponse user = EndpointResponse.fromJson(body);
 

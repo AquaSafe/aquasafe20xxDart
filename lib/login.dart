@@ -11,6 +11,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Map<String, dynamic> validate;
+  // Check for valid token and bypass login with it
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+
+      validate = await api.API.validate(prefs.getString("token"));
+
+      if (validate["auth"])
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+    });
+  }
+
   // Values for the text fields
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
