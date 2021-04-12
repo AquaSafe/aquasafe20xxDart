@@ -14,7 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
-  String pageTitle = "SampleList"; //default page (on launch) is the sample list
+  String pageTitle =
+      "Water Samples"; //default page (on launch) is the sample list
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,11 @@ class _HomePageState extends State<HomePage> {
                 // if (index == _selectedIndex) {
                 //   ContentSpace(_selectedIndex);
                 // }
+                if (index == 2) {
+                  pageTitle = "Teams";
+                } else {
+                  pageTitle = "Water Samples";
+                }
                 _selectedIndex = index;
               });
             },
