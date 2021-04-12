@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AquaSafe WebApp',
       theme: ThemeData(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.deepOrange,
         primaryColor: Colors.blue,
         primarySwatch: Colors.blue,
         accentColor: Colors.blueAccent,
