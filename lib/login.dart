@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
       if (prefs.getString("token") != null) {
         validate = await api.API.validate(prefs.getString("token"));
 
+        await api.API.listSamples(prefs.getString("token"));
         if (validate["auth"])
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));

@@ -119,29 +119,34 @@ class API {
   }
 
   static Future<Map<String, dynamic>> listSamples(String token) async {
-    Response res = await post(validateURL,
+    Response res = await post(listSamplesURL,
         headers: {"content-type": "application/json"},
         body: '{' + '"token": "' + token + '"}');
-    Map<String, dynamic> body = jsonDecode(res.body);
-    EndpointResponse samples = EndpointResponse.fromJson(body);
+
+    String resResults = res.body.substring(
+        res.body.indexOf('"results":') + 10, res.body.indexOf('],') + 1);
+    List<Map<String, dynamic>> samples =
+        (jsonDecode(resResults) as List<dynamic>).cast<Map<String, dynamic>>();
+
+    Map<String, dynamic> body = json.decode(res.body);
+    body['results'] = samples;
+
+    EndpointResponse auth = EndpointResponse.fromJson(body);
 
     // If the request comes back good then
     if (res.statusCode == 200) {
-      List<Sample> sampleList;
-
-      for (Map<String, dynamic> a in samples.results) {
-        sampleList.add(Sample.fromJson(a));
+      List<Sample> sampleList = <Sample>[];
+      for (Map<String, dynamic> s in samples) {
+        Sample samp = Sample.fromJsonWithID(s);
+        sampleList.add(samp);
       }
-
-      userInfo.loadList(sampleList);
-
       return <String, dynamic>{
-        "auth": samples.auth,
-        "samples": sampleList,
-        "msg": samples.msg
+        "auth": auth.auth,
+        "samples": auth.results,
+        "msg": auth.auth
       };
     } else
-      return <String, dynamic>{"auth": false, "msg": samples.msg};
+      return <String, dynamic>{"auth": false, "msg": auth.msg};
   }
 }
 
