@@ -8,17 +8,17 @@ class SampleList {
   SampleList();
 
   //add samples to the userSamples list.
-  addSample(Sample addition) {
+  static void addSample(Sample addition) {
     userSamples.add(addition);
   }
 
   //loads the users samples
-  loadList(List<Sample> userData) {
+  static void loadList(List<Sample> userData) {
     userSamples = userData;
   }
 
   //retrieves the users samples for use in a listView
-  retrieveList() {
+  static List<Sample> retrieveList() {
     return userSamples;
   }
 }

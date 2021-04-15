@@ -281,7 +281,7 @@ class _SamplePageState extends State<NewSample> {
                         Sample creation =
                             new Sample(title, _pH, _hardness, _color, _type);
 
-                        _samples.addSample(creation);
+                        SampleList.addSample(creation);
 
                         //saving
                         final prefs = await SharedPreferences.getInstance();
@@ -518,7 +518,7 @@ class _SamplePageState extends State<NewSample> {
               Sample creation =
                   new Sample(title, _pH, _hardness, _color, _type);
 
-              _samples.addSample(creation);
+              SampleList.addSample(creation);
 
               //saving
               final prefs = await SharedPreferences.getInstance();

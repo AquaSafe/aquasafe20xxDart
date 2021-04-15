@@ -114,7 +114,7 @@ class ContentSpace extends StatefulWidget {
 class _ContentSpace extends State<ContentSpace> {
   findType(index) {
     String type;
-    switch (_samples.retrieveList()[index].location) {
+    switch (SampleList.retrieveList()[index].location) {
       case 0:
         {
           type = 'Unknown';
@@ -167,7 +167,7 @@ class _ContentSpace extends State<ContentSpace> {
 
   findColor(index) {
     String color;
-    switch (_samples.retrieveList()[index].color) {
+    switch (SampleList.retrieveList()[index].color) {
       case 0:
         {
           color = 'Clear';
@@ -273,7 +273,7 @@ class _ContentSpace extends State<ContentSpace> {
           return Expanded(
               child: ListView.builder(
                   padding: EdgeInsets.all(15),
-                  itemCount: _samples.retrieveList().length,
+                  itemCount: SampleList.retrieveList().length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                         child: Column(children: <Widget>[
@@ -288,10 +288,9 @@ class _ContentSpace extends State<ContentSpace> {
                               // print(_samples.retrieveList());
 
                               setState(() {
-                                _samples
-                                    .retrieveList()
-                                    .remove(_samples.retrieveList()[index]);
-                                print(_samples.retrieveList());
+                                SampleList.retrieveList()
+                                    .remove(SampleList.retrieveList()[index]);
+                                print(SampleList.retrieveList());
                               });
 
                               // Navigator.of(context).pop();
@@ -313,7 +312,8 @@ class _ContentSpace extends State<ContentSpace> {
                               //     print("ye");
                               //   },
                               // ),
-                              title: Text(_samples.retrieveList()[index].title),
+                              title:
+                                  Text(SampleList.retrieveList()[index].name),
                               subtitle: Text("Color: " +
                                   findColor(index) +
                                   "; Type: " +

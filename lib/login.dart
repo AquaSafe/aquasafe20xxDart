@@ -1,5 +1,6 @@
 import 'package:aquasafe20xx/home.dart';
 import 'package:aquasafe20xx/register.dart';
+import 'package:aquasafe20xx/samplelist.dart';
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/api.dart' as api;
 import 'package:flutter/services.dart';
@@ -21,8 +22,11 @@ class _LoginPageState extends State<LoginPage> {
       print(prefs.getString("token"));
       if (prefs.getString("token") != null) {
         validate = await api.API.validate(prefs.getString("token"));
+        Map<String, dynamic> samples =
+            await api.API.listSamples(prefs.getString("token"));
 
-        await api.API.listSamples(prefs.getString("token"));
+        SampleList.loadList(samples['samples']);
+
         if (validate["auth"])
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
