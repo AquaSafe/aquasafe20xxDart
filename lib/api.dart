@@ -6,23 +6,23 @@ import 'dart:convert';
 import 'package:sha3/sha3.dart';
 import 'package:hex/hex.dart';
 
-final String host = "localhost";
-final int port = 3000;
+final String host = "api.aqua.projects.nicolor.tech";
+final int port = 443;
 //user instance
 SampleList userInfo = new SampleList();
 
 class API {
   // Making URI objects for all them API calls
   static final Uri loginURL =
-      new Uri(scheme: 'http', host: host, path: "users/login", port: port);
+      new Uri(scheme: 'https', host: host, path: "users/login", port: port);
   static final Uri registerURL =
-      new Uri(scheme: 'http', host: host, path: "users/register", port: port);
+      new Uri(scheme: 'https', host: host, path: "users/register", port: port);
   static final Uri validateURL =
-      new Uri(scheme: 'http', host: host, path: "users/validate", port: port);
+      new Uri(scheme: 'https', host: host, path: "users/validate", port: port);
   static final Uri listSamplesURL =
-      new Uri(scheme: 'http', host: host, path: "samples/list", port: port);
+      new Uri(scheme: 'https', host: host, path: "samples/list", port: port);
   static final Uri newSampleURL =
-      new Uri(scheme: 'http', host: host, path: "samples/new", port: port);
+      new Uri(scheme: 'https', host: host, path: "samples/new", port: port);
 
   static Future<Map<String, dynamic>> login(
       String name, String password) async {
