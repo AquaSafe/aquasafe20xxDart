@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs.getString("token"));
+
       if (prefs.getString("token") != null) {
         validate = await api.API.validate(prefs.getString("token"));
         Map<String, dynamic> samples =
@@ -126,7 +126,9 @@ class _LoginPageState extends State<LoginPage> {
       _writeToken(apiResponse["token"]);
 
       final prefs = await SharedPreferences.getInstance();
-      await api.API.listSamples(prefs.getString("token"));
+      Map<String, dynamic> samples =
+          await api.API.listSamples(prefs.getString("token"));
+      SampleList.loadList(samples['samples']);
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));

@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/NewSample.dart';
 import 'package:aquasafe20xx/samplelist.dart';
-import 'package:aquasafe20xx/sample.dart';
 import 'package:aquasafe20xx/api.dart' as api;
+import 'package:shared_preferences/shared_preferences.dart';
 
 //sampleList init
-SampleList _samples = new SampleList();
 
 int _globalIndex = 1;
 
@@ -17,6 +16,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Auto refresh sample list when home comes into view
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      Map<String, dynamic> samples =
+          await api.API.listSamples(prefs.getString("token"));
+
+      SampleList.loadList(samples['samples']);
+    });
+  }
+
   int _selectedIndex = 1;
   String pageTitle =
       "Water Samples"; //default page (on launch) is the sample list
