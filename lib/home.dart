@@ -313,7 +313,7 @@ class _ContentSpace extends State<ContentSpace> {
                               //     print("ye");
                               //   },
                               // ),
-                              title: Text(_samples.retrieveList()[index].title),
+                              title: Text(_samples.retrieveList()[index].name),
                               subtitle: Text("Color: " +
                                   findColor(index) +
                                   "; Type: " +
