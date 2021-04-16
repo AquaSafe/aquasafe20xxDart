@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final inputUsername = Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.fromLTRB(100, 0, 100, 10),
       child: TextField(
         autocorrect: false,
         keyboardType: TextInputType.text,
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final inputPasswd = Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.fromLTRB(100, 0, 100, 10),
       child: TextField(
         autocorrect: false,
         obscureText: true,
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final loginButton = Padding(
-      padding: EdgeInsets.only(bottom: 5),
+      padding: EdgeInsets.fromLTRB(100, 0, 100, 5),
       child: ButtonTheme(
         height: 56,
         child: ElevatedButton(
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final switchToRegister = Padding(
-        padding: EdgeInsets.only(bottom: 5),
+        padding: EdgeInsets.fromLTRB(100, 0, 100, 5),
         child: ButtonTheme(
             height: 56,
             child: TextButton(
