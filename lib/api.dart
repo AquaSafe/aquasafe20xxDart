@@ -7,22 +7,22 @@ import 'package:sha3/sha3.dart';
 import 'package:hex/hex.dart';
 
 final String host = "api.aqua.projects.nicolor.tech";
-
+final int port = 443;
 //user instance
 SampleList userInfo = new SampleList();
 
 class API {
   // Making URI objects for all them API calls
   static final Uri loginURL =
-      new Uri(scheme: 'https', host: host, path: "users/login", port: 443);
+      new Uri(scheme: 'https', host: host, path: "users/login", port: port);
   static final Uri registerURL =
-      new Uri(scheme: 'https', host: host, path: "users/register", port: 443);
+      new Uri(scheme: 'https', host: host, path: "users/register", port: port);
   static final Uri validateURL =
-      new Uri(scheme: 'https', host: host, path: "users/validate", port: 443);
+      new Uri(scheme: 'https', host: host, path: "users/validate", port: port);
   static final Uri listSamplesURL =
-      new Uri(scheme: 'https', host: host, path: "samples/list", port: 443);
+      new Uri(scheme: 'https', host: host, path: "samples/list", port: port);
   static final Uri newSampleURL =
-      new Uri(scheme: 'https', host: host, path: "samples/new", port: 443);
+      new Uri(scheme: 'https', host: host, path: "samples/new", port: port);
 
   static Future<Map<String, dynamic>> login(
       String name, String password) async {
@@ -133,6 +133,8 @@ class API {
 
     EndpointResponse auth = EndpointResponse.fromJson(body);
 
+    print(samples);
+
     // If the request comes back good then
     if (res.statusCode == 200) {
       List<Sample> sampleList = <Sample>[];
@@ -142,7 +144,7 @@ class API {
       }
       return <String, dynamic>{
         "auth": auth.auth,
-        "samples": auth.results,
+        "samples": sampleList,
         "msg": auth.auth
       };
     } else

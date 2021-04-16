@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:aquasafe20xx/sample.dart';
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/NewSample.dart';
+import 'package:aquasafe20xx/analysis.dart';
 import 'package:aquasafe20xx/samplelist.dart';
-import 'package:aquasafe20xx/sample.dart';
 import 'package:aquasafe20xx/api.dart' as api;
+import 'package:shared_preferences/shared_preferences.dart';
 
 //sampleList init
 SampleList _samples = new SampleList();
@@ -17,6 +19,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Auto refresh sample list when home comes into view
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      Map<String, dynamic> samples =
+          await api.API.listSamples(prefs.getString("token"));
+
+      _samples.loadList(samples['samples']);
+    });
+  }
+
   int _selectedIndex = 1;
   String pageTitle =
       "Water Samples"; //default page (on launch) is the sample list
@@ -282,37 +296,23 @@ class _ContentSpace extends State<ContentSpace> {
                           onLongPress: () async {
                             await _showDialog();
                             if (remove) {
-                              // _samples
-                              //     .retrieveList()
-                              //     .remove(_samples.retrieveList()[index]);
-                              // print(_samples.retrieveList());
-
                               setState(() {
                                 _samples
                                     .retrieveList()
                                     .remove(_samples.retrieveList()[index]);
                                 print(_samples.retrieveList());
                               });
-
-                              // Navigator.of(context).pop();
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => HomePage()));
                             } else {}
                           },
                           onTap: () {
-                            print('ye');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AnalysisPage(index)),
+                            );
                           },
                           child: ListTile(
                               leading: Icon(Icons.fact_check),
-                              // trailing: IconButton(
-                              //   padding: EdgeInsets.all(0),
-                              //   icon: Icon(Icons.chevron_right),
-                              //   onPressed: () {
-                              //     print("ye");
-                              //   },
-                              // ),
                               title: Text(_samples.retrieveList()[index].name),
                               subtitle: Text("Color: " +
                                   findColor(index) +

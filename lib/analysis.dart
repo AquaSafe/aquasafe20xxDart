@@ -11,11 +11,14 @@ class AnalysisPage extends StatefulWidget {
   final int index;
   const AnalysisPage(this.index);
 
-  _AnalysisPage createState() => _AnalysisPage(/*index*/);
+  _AnalysisPage createState() => _AnalysisPage(index);
 }
 
 class _AnalysisPage extends State<AnalysisPage> {
-  int index = 0;
+  int index;
+
+  _AnalysisPage(this.index);
+
   String pHAnalysis;
   String hardnessAnalysis;
   String cAnalysis;
@@ -268,6 +271,12 @@ class _AnalysisPage extends State<AnalysisPage> {
   }
 
   @override
+  void dispose() {
+    //dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -391,7 +400,7 @@ class _AnalysisPage extends State<AnalysisPage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                     "With a water hardness of " +
-                        userInfo.retrieveList()[_sample].color.toString() +
+                        userInfo.retrieveList()[_sample].hardness.toString() +
                         "ppm " +
                         hardnessAnalysis,
                     style: TextStyle(fontWeight: FontWeight.w400)),

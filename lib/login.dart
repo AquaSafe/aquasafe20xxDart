@@ -1,9 +1,13 @@
 import 'package:aquasafe20xx/home.dart';
 import 'package:aquasafe20xx/register.dart';
+import 'package:aquasafe20xx/samplelist.dart';
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/api.dart' as api;
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+//accessing the sample list
+SampleList _samples = new SampleList();
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,11 +22,14 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs.getString("token"));
+
       if (prefs.getString("token") != null) {
         validate = await api.API.validate(prefs.getString("token"));
+        Map<String, dynamic> samples =
+            await api.API.listSamples(prefs.getString("token"));
 
-        await api.API.listSamples(prefs.getString("token"));
+        _samples.loadList(samples['samples']);
+
         if (validate["auth"])
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
@@ -122,7 +129,9 @@ class _LoginPageState extends State<LoginPage> {
       _writeToken(apiResponse["token"]);
 
       final prefs = await SharedPreferences.getInstance();
-      await api.API.listSamples(prefs.getString("token"));
+      Map<String, dynamic> samples =
+          await api.API.listSamples(prefs.getString("token"));
+      _samples.loadList(samples['samples']);
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
