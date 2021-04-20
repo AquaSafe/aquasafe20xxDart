@@ -1,0 +1,153 @@
+START: 
+
+This file gives a base for the applicatio to talk to the web API.
+
+GET 'sample.dart' class
+GET 'sampleList' class
+GET app instance http
+GET app instance sha3
+GET app instance hex
+GET dart convert
+
+INITIALIZE userInfo as a new SampleList class object
+
+SET host = "api.aqua.projects.nicolor.tech"
+SET port = 443
+
+SET a new class 'API'
+    INITIALIZE loginURL as a new URI class object from http
+        with scheme: 'https' host: host path: "users/login" and port: port
+    INITIALIZE registerURL as a new URI class object from http
+        with scheme: 'https' host: host path: "users/register" and port: port
+    INITIALIZE validateURL as a new URI class object from http
+        with scheme: 'https' host: host path: "users/validate" and port: port
+    INITIALIZE listSamplesURL as a new URI class object from http
+        with scheme: 'https' host: host path: "samples/list" and port: port
+    INITIALIZE newSampleURL as a new URI class object from http
+        with scheme: 'https' host: host path: "samples/new" and port: port
+
+    Function login
+        Pass in: name, password
+
+        SET passHash = a SHA3-224 hash of password
+
+        INITIALIZE res as a new Response class object from http with the result of a POST request to loginURL with paramaters:
+            headers: {"content-type": "application/json"},
+            body: {"name": name, "password": passHash}'
+
+        INITIALIZE token as a new EndpointResponse class object from the body of res
+
+        IF res status code is 200
+            Pass out: {"auth": token authstate, "token": token token}
+        ELSE
+            Pass out: {"auth": token auth, "msg": token message}
+        END IF
+    END Function
+
+
+    Function register
+            Pass in: name, password
+
+        SET passHash = a SHA3-224 hash of password
+
+        INITIALIZE res as a new Response class object from http with the result of a POST request to registerURL with paramaters:
+            headers: {"content-type": "application/json"},
+            body: {"name": name, "password": passHash}
+
+        INITIALIZE token as a new EndpointResponse class object from the body of res
+
+        IF res status code is 200
+            Pass out: {"auth": token authstate, "token": token token}
+        ELSE
+            Pass out: {"auth": token authstate, "msg": token message}
+        END IF
+    END Function
+
+    Function validate
+            Pass in: token
+
+        INITIALIZE res as a new Response class object from http with the result of a POST request to validateURL with paramaters:
+            headers: {"content-type": "application/json"},
+            body: '{"token": token}'
+
+        INITIALIZE userdata as a new EndpointResponse class object from the body of res
+
+        IF res status code is 200
+            Pass out: {"auth": userdata authstate, "name" userdata name, "msg": userdata message}
+        ELSE
+            Pass out: {"auth": userdata authstate, "msg": token message}
+        END IF
+    END Function
+
+    Function newSampl
+        Pass in: token, sample
+
+        INITIALIZE res as a new Response class object from http with the result of a POST request to newSampleURL with paramaters:
+            headers: {"content-type": "application/json"},
+            body: '{"token": token, "sample" sample}'
+        
+        INITIALIZE sampleRes as a new EndpointResponse class object from the body of res
+
+        IF res status code is 200
+            Pass out: {"auth": sampleRes authstate, "msg": sampleRes message}
+        ELSE
+            Pass out: {"auth": false, "msg": sampleRes message}
+        END IF
+    END Function
+
+    Function listSamples
+            Pass in: token
+
+        INITIALIZE res as a new Response class object from http with the result of a POST request to listSamplesURL with paramaters:
+            headers: {"content-type": "application/json"},
+            body: '{"token": token}'
+
+        INITIALIZE resResults as a new EndpointResponse class object from the body of res
+
+        IF res status code is 200
+            Pass out: {"auth": resResults authstate, "results": resResults results, "msg": resResults message}
+        ELSE
+            Pass out: {"auth": false, "msg": token message}
+        END IF
+    END Function
+END class
+
+
+SET a new class 'EndpointResponse'
+    SET bool auth
+    SET string msg
+    SET string token
+    SET string name
+    SET results as a new List of Sample class object from 'sample.dart'
+
+    Function fromJson
+        Pass in: json
+
+        SET auth = json auth
+        SET msg = json message
+        SET token = json token
+        SET name = json name
+        SET results = json results
+    END Function
+
+END class
+    
+
+class EndpointResponse {
+  final bool auth;
+  final String msg;
+  final String token;
+  final List<Map<String, dynamic>> results;
+  final String name;
+
+  EndpointResponse({ this.auth, this.msg, this.token, this.results, this.name});
+
+  factory EndpointResponse.fromJson(Map<String, dynamic> json) {
+    return EndpointResponse(
+        auth: json['auth'] as bool,
+        msg: json['msg'] as String,
+        token: json['token'] as String,
+        results: json['results'] as List<Map<String, dynamic>>,
+        name: json['name'] as String);
+  }
+}

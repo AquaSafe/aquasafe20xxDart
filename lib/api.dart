@@ -1,6 +1,5 @@
 import 'package:aquasafe20xx/sample.dart';
 import 'package:aquasafe20xx/samplelist.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:sha3/sha3.dart';
@@ -133,8 +132,6 @@ class API {
 
     EndpointResponse auth = EndpointResponse.fromJson(body);
 
-    print(samples);
-
     // If the request comes back good then
     if (res.statusCode == 200) {
       List<Sample> sampleList = <Sample>[];
@@ -159,8 +156,7 @@ class EndpointResponse {
   final List<Map<String, dynamic>> results;
   final String name;
 
-  EndpointResponse(
-      {@required this.auth, this.msg, this.token, this.results, this.name});
+  EndpointResponse({this.auth, this.msg, this.token, this.results, this.name});
 
   factory EndpointResponse.fromJson(Map<String, dynamic> json) {
     return EndpointResponse(
