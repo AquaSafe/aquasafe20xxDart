@@ -1,6 +1,6 @@
 START: 
 
-This file gives a base for the applicatio to talk to the web API.
+This file gives a base for the application to talk to the web API.
 
 GET 'sample.dart' class
 GET 'sampleList' class
