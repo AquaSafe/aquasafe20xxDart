@@ -1,16 +1,14 @@
 # aquasafe20xx
 
-A new Flutter project.
+AquaSafe - 2021
 
-## Getting Started
+## Project information
 
-This project is a starting point for a Flutter application.
+This project is a submission for the PA Media and Design competition.
+AquaSafe was made to provide more information to anyone who needs to test water and provide more information on water safety.
+It was not made as an accurate lab-style testing service, and should not be used as such.
 
-A few resources to get you started if this is your first Flutter project:
+You can find all of the code files under the lib folder which includes a folder for any pseudo code we have completed.
+Not all pseudo code may be provided there as there is a lot of script to write in that regard, it will be added in the future whenever the developers are able to.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Developed by Ian Timchak and Alex Brow
