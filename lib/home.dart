@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:aquasafe20xx/sample.dart';
 import 'package:flutter/material.dart';
 import 'package:aquasafe20xx/NewSample.dart';
 import 'package:aquasafe20xx/analysis.dart';

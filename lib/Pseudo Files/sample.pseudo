@@ -1,0 +1,59 @@
+START:
+
+This file creates Sample objects that store all the information of a sample a user would create.
+This file has more than 60 lines of code.
+
+GET dart convert
+
+INITIALIZE a new class 'Sample'
+    INITIALIZE a new String variable 'name'
+    INITIALIZE a new Double variable 'ph'
+    INITIALIZE a new Integer variable 'hardness'
+    INITIALIZE a new Integer variable 'color'
+    INITIALIZE a new Integer variable 'location'
+    INITIALIZE a new Integer variable 'id'
+
+    CONSTRUCT Sample
+        This is the main constructor for this class
+        Pass in {name, ph, hardness, color, location}
+
+        Set the class's 'name' variable to 'name'
+        Set the class's 'ph' variable to 'ph'
+        Set the class's 'hardness' variable to 'hardness'
+        Set the class's 'color' variable to 'color'
+        Set the class's 'location' variable to 'location'
+
+    CONSTRUCT Sample.withID
+        This function acts as a constructor but includes an ID for the sample
+        Pass in {name, ph, hardness, color, location, id}
+
+        Set the class's 'name' variable to 'name'
+        Set the class's 'ph' variable to 'ph'
+        Set the class's 'hardness' variable to 'hardness'
+        Set the class's 'color' variable to 'color'
+        Set the class's 'location' variable to 'location'
+        Set the class's 'id' variable to 'id'
+
+    Function toMap
+        INITIALIZE a Map object 'out' and set it to a Map<String, dynamic> object with the parameters:
+            SET "name" as 'name',
+            SET "ph" as 'ph',
+            SET "hardness" as 'hardness',
+            SET "color" as 'color',
+            SET "location" as 'location',
+            SET "id" as 'id',
+        
+        Return 'out'
+    END Function toMap
+
+    Function toJson
+        This function encodes the class as a json file
+        Return json.encode() and pass in the function toMap
+    END Function toJSon
+
+    CONSTRUCT Sample.fromJsonWithID
+        This constructor takes a json file and turns it into a Sample class object
+        Pass in: A Map<String, dynamic> object 'data'
+        Return a new Sample Object using the Sample.withID constructor and pass in: {name, ph, hardness, color, location, id} from the 'data' variable
+
+FINISH;

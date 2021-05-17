@@ -1,0 +1,27 @@
+START:
+
+This file creates the sampleList class which will hold a staticc array of 'Sample' objects which can be accessed across the application.
+
+GET 'sample' class
+
+INITIALIZE a new class 'SampleList'
+    INITIALIZE a new static List object 'userSamples' and set it to be empty
+
+    CONSTRUCT SampleList
+        An empty constructor that initializes the static list
+    
+    Function addSample
+        Pass in a Sample object 'addition'
+        CALL userSamples.add and pass to it 'addition'
+    END Function addSample
+
+    Function loadList
+        Pass in a List object 'userData'
+        Set the userSamples list to the 'userData' list that will be loaded when the app is run
+    END Function loadList
+
+    Function retrieveList
+        Returns the userSample list
+    END Function retrieveList
+
+FINISH;
