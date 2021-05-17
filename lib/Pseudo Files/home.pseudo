@@ -1,0 +1,325 @@
+START:
+
+This file structures the home page of the app using DART.
+This file has more than 300 lines of code.
+
+GET material.dart
+GET 'NewSample' class
+GET 'analysis' class
+GET 'samplelist' class
+GET 'api' class SET as 'api'
+GET user shared preferences
+
+INITIALIZE _samples as a new SampleList class object
+
+SET _globalIndex to 1
+
+SET a new class 'HomePage' that extends the StatefulWidget class
+    Override the createState() constructor
+    INITIALIZE createState() as a _HomePageState class object
+
+SET a new class '_HomePageState' that extends the <HomePage> class
+    Function initState
+        This function refreshes the sample list whenever it comes into view
+        GET initState properties from the State<HomePage> class
+        CALL the addPostFrameCallback function and wait until it returns
+            INITIALIZE 'prefs' to SharedPreferences.getInstance() and wait for the function to return
+            INITIALIZE 'samples' to what api.API.listSamples() returns, pass to it the token from prefs.getString("token")
+
+            CALL the .loadList() function of '_samples' and pass to it the ['samples'] key-value of the 'samples' variable
+    END Function
+
+    SET _selectedIndex to 1
+    SET pageTitle to "Water Samples"
+
+    Override the build() constructor
+    Function build
+        Pass in the State context
+        Return a Scaffold with the parameters:
+            appBar: 
+                An AppBar object with the parameters:
+                    title: A Text object with the text from 'pageTitle'
+            
+            body: 
+                A Row object with the parameters:
+                    Children: Make sure everything passed to this is a 'Widget' class object
+                        A NavigationRail object with the parameters:
+                            selectedIndex: _selectedIndex
+
+                            onDestinationSelected: 
+                                Function onDestinationSelected
+                                    Pass in: index
+
+                                    If index equals 0 Then
+                                        SET value to the Navigator.push function which changes the content and wait for it to return:
+                                            Pass in the parameters 'context' and A new MaterialPageRoute object that is set to the 'NewSample' class
+                                        SET index to 1
+
+                                    CALL Function setState
+                                        IF index equals 2 THEN
+                                            SET pageTitle to "Teams"
+                                        ELSE
+                                            SET pageTItle to "Water Samples"
+                                    
+                                    SET _selectedIndex to 'index'
+                                    SET _globalIndex to '_selectedIndex'
+                                    END Function
+                                END Function
+                            
+                            labelType: Pass in the property NavigationRailLabelType.selected
+
+                            destinations: Set to an array and only allow the children to be NavigationRailDestination objects: [
+                                    A NavigationRailDestination object with the parameters:
+                                        icon:
+                                            Set to a FloatingActionButton object with the parameters:
+                                                onPressed:
+                                                    Function onPressed, wait for this function to return
+                                                        SET value to the Navigator.push function which changes the content and wait for it to return:
+                                                            Pass in the parameters 'context' and A new MaterialPageRoute object that is set to the 'NewSample' class
+                                                        Function setState
+                                                            This function updates the state so that the content will change
+                                                            SET _selectedIndex to '_selectedIndex'
+                                                        END Function
+                                                    END Function
+
+                                                child: Pass in an Icon object with the Icons.edit property
+
+                                                backgroundColor: Pass in the Colors.blue property
+
+                                        selectedIcon:
+                                            The point of this parameter is to keep the FAB from changing
+                                            Set to a FloatingActionButton object with the parameters:
+                                                onPressed:
+                                                    Function onPressed, wait for this function to return
+                                                        SET value to the Navigator.push function which changes the content and wait for it to return:
+                                                            Pass in the parameters 'context' and A new MaterialPageRoute object that is set to the 'NewSample' class
+                                                        Function setState
+                                                            This function updates the state so that the content will change
+                                                            SET _selectedIndex to '_selectedIndex'
+                                                        END Function
+                                                    END Function
+
+                                                child: Pass in an Icon object with the Icons.edit property
+
+                                                backgroundColor: Pass in the Colors.blue property
+
+                                        label: A Text object with a blank text;
+                                    
+                                    A NavigationRailDestination object with the parameters:
+                                        icon: An Icon object with the paramater set to the Icons.list property
+
+                                        selectedIcon: An Icon object with the parameter set to the Icons.list property
+
+                                        label: A Text object with the text set to 'List'
+                                    
+                                    A NavigationRailDestination object with the parameters:
+                                        icon: An Icon object with the parameter set to the Icons.group_outlined property
+
+                                        selectedIcon: An Icon object with the parameter set to the Icons.group property
+
+                                        label: A Text object with the text set to 'Teams'
+                                ] END destinations
+                            END NavigationRail
+                        
+                        A VerticalDivider object that is constant with the paramters:
+                            thickness: 1
+                            width: 1
+                        
+                        A ContentSpace object
+                END Row
+        END Scaffold
+    END Function 'build'
+
+SET a new class 'ContentSpace' that extends the StatefulWidget class
+    Override the createState() constructor
+    INITIALIZE createState() as a _ContentSpace class object
+
+SET a new class '_ContentSpace' that extends the <ContentSpace> class
+    Function findType
+        Pass in: an integer 'index'
+        INITIALIZE 'type' as a string variable
+        
+        SWITCH depending on what the location parameter of _samples.retrieveList at 'index' is set to:
+            IF case is 0 THEN
+                SET type to 'Unknown'
+                BREAK from the statement
+
+            IF case is 1 THEN
+                SET type to 'Tap'
+                BREAK from the statement
+            
+            IF case is 2 THEN
+                SET type to 'Well'
+                BREAK from the statement
+
+            IF case is 3 THEN
+                SET type to 'River'
+                BREAK from the statement
+
+            IF case is 4 THEN
+                SET type to 'Lake'
+                BREAK from the statement
+
+            IF case is 5 THEN
+                SET type to 'Rain'
+                BREAK from the statement
+
+            IF case is 6 THEN
+                SET type to 'Stream'
+                BREAK from the statement
+            
+            IF case is 7 THEN
+                SET type to 'Spring'
+                BREAK from the statement
+
+            IF case is 8 THEN
+                SET type to 'Hand Pump'
+                BREAK from the statement
+        END SWITCH
+        Return the 'type' variable
+    END Function 'findType'
+
+    Function findColor
+        Pass in: an integer 'index'
+        INITIALIZE 'color' as a string variable
+        
+        SWITCH depending on what the color parameter of _samples.retrieveList at 'index' is set to:
+            IF case is 0 THEN
+                SET type to 'Clear'
+                BREAK from the statement
+
+            IF case is 1 THEN
+                SET type to 'Cloudy'
+                BREAK from the statement
+            
+            IF case is 2 THEN
+                SET type to 'Yellow'
+                BREAK from the statement
+
+            IF case is 3 THEN
+                SET type to 'Orange'
+                BREAK from the statement
+
+            IF case is 4 THEN
+                SET type to 'Red'
+                BREAK from the statement
+
+            IF case is 5 THEN
+                SET type to 'Green-blue'
+                BREAK from the statement
+
+            IF case is 6 THEN
+                SET type to 'Black'
+                BREAK from the statement
+            
+            IF case is 7 THEN
+                SET type to 'Pink'
+                BREAK from the statement
+
+            IF case is 8 THEN
+                SET type to 'Green'
+                BREAK from the statement
+        END SWITCH
+        Return the 'color' variable
+    END Function 'findColor'
+
+    INITIALIZE a boolean variable 'remove' and set to false
+
+    Function removeSet
+        Pass in a boolean variable 'which'
+        SET 'remove' to 'which'
+    END Function 'removeSet'
+
+    
+
+  //dialog
+  @override
+  Widget build(BuildContext context) {
+    Future<void> _showDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete Sample'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('You are about to delete a sample.'),
+                  Text('Would you like to proceed?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  removeSet(true);
+                  print(remove);
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('No'),
+                onPressed: () {
+                  removeSet(false);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    //will change based on whichever index is selected
+    int currentIndex = _globalIndex;
+    switch (currentIndex) {
+      case 1:
+        {
+          return Expanded(
+              child: ListView.builder(
+                  padding: EdgeInsets.all(15),
+                  itemCount: _samples.retrieveList().length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                        child: Column(children: <Widget>[
+                      InkWell(
+                          splashColor: Colors.blue,
+                          onLongPress: () async {
+                            await _showDialog();
+                            if (remove) {
+                              setState(() {
+                                _samples
+                                    .retrieveList()
+                                    .remove(_samples.retrieveList()[index]);
+                                print(_samples.retrieveList());
+                              });
+                            } else {}
+                          },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AnalysisPage(index)),
+                            );
+                          },
+                          child: ListTile(
+                              leading: Icon(Icons.fact_check),
+                              title: Text(_samples.retrieveList()[index].name),
+                              subtitle: Text("Color: " +
+                                  findColor(index) +
+                                  "; Type: " +
+                                  findType(index))))
+                    ]));
+                  }));
+        }
+        break;
+      case 2:
+        {
+          return Expanded(child: Text("Nothing to see here"));
+        }
+        break;
+    } //switch
+  }
+}
